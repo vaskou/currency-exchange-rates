@@ -21,7 +21,7 @@ function currency_exchange_rates_convert( $value, $to, $from = 'USD' ) {
 
 		$rate = $currencies['rates'][ $to ];
 
-		return number_format_i18n( $value * $rate, 0 );
+		return $value * $rate;
 	} else {
 		return false;
 	}
