@@ -8,6 +8,10 @@ function currency_exchange_rate_get_latest( $base = 'USD' ) {
 
 function currency_exchange_rates_convert( $value, $to, $from = 'USD' ) {
 
+	if ( empty( $value ) ) {
+		return false;
+	}
+
 	$transient_name = 'currency_exchange_rates_latest_' . $from;
 
 	$currencies = get_transient( $transient_name );
