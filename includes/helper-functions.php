@@ -18,11 +18,10 @@ function currency_exchange_rates_convert( $value, $to, $from = 'USD' ) {
 
 	if ( empty( $currencies ) ) {
 		$currencies = Currency_Exchange_Rates::getInstance()->get_latest( $from );
+		set_transient( $transient_name, $currencies, DAY_IN_SECONDS );
 	}
 
 	if ( ! is_wp_error( $currencies ) && ! empty( $currencies['rates'][ $to ] ) ) {
-		set_transient( $transient_name, $currencies, DAY_IN_SECONDS );
-
 		$rate = $currencies['rates'][ $to ];
 
 		return $value * $rate;
