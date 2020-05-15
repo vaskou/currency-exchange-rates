@@ -18,3 +18,9 @@ define( 'CURRENCY_EXCHANGE_RATES_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) )
 define( 'CURRENCY_EXCHANGE_RATES_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'CURRENCY_EXCHANGE_RATES_PLUGIN_DIR_NAME', basename( CURRENCY_EXCHANGE_RATES_PLUGIN_DIR_PATH ) );
 define( 'CURRENCY_EXCHANGE_RATES_PLUGIN_URL', plugins_url( CURRENCY_EXCHANGE_RATES_PLUGIN_DIR_NAME ) );
+
+include 'includes/class-currency-exchange-rates-settings.php';
+include 'includes/class-currency-exchange-rates.php';
+include 'includes/helper-functions.php';
+
+Currency_Exchange_Rates::getInstance()->init();
