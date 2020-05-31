@@ -44,6 +44,19 @@ class Currency_Exchange_Rates {
 		return $this->_handle_response( $response );
 	}
 
+	public function get_usage() {
+		$api_url = Currency_Exchange_Rates_Settings::get_setting( 'cer_oxr_api_url' );
+		$app_id  = Currency_Exchange_Rates_Settings::get_setting( 'cer_oxr_app_id' );
+
+		$response = wp_remote_get( $api_url . '/usage.json', array(
+			'body' => array(
+				'app_id' => $app_id,
+			)
+		) );
+
+		return $this->_handle_response( $response );
+	}
+
 	private function _handle_response( $response ) {
 
 		if ( is_wp_error( $response ) ) {

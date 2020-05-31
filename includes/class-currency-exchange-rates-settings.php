@@ -23,6 +23,12 @@ class Currency_Exchange_Rates_Settings {
 				'type' => 'password'
 			)
 		),
+		'cer_oxr_usage'   => array(
+			'title' => 'Open Exchange Rates Usage',
+			'args'  => array(
+				'type' => 'oxr_usage'
+			)
+		),
 	);
 
 	private $_submenu_parent_slug = 'options-general.php';
@@ -67,6 +73,7 @@ class Currency_Exchange_Rates_Settings {
 
 		if ( isset( $_GET['settings-updated'] ) ) {
 //			add_settings_error( self::MENU_SLUG . '_messages', self::MENU_SLUG . '_message', __( 'Settings Saved', 'currency-exchange-rates' ), 'success' );
+			delete_transient( 'currency_exchange_rates_usage' );
 		}
 
 		settings_errors( self::MENU_SLUG . '_messages' );
@@ -181,6 +188,9 @@ class Currency_Exchange_Rates_Settings {
 					'textarea_rows' => 10,
 				) );
 				break;
+			case 'oxr_usage':
+				echo $this->usage_html();
+				break;
 		}
 	}
 
@@ -200,6 +210,31 @@ class Currency_Exchange_Rates_Settings {
 		}
 
 		return $setting;
+	}
+
+	public function usage_html() {
+
+		$usage = Currency_Exchange_Rates::getInstance()->get_usage();
+		if ( is_wp_error( $usage ) || empty( $usage ) ) {
+			return '';
+		}
+
+		$plan_name           = ! empty( $usage['data']['plan']['name'] ) ? $usage['data']['plan']['name'] : '';
+		$plan_requests       = ! empty( $usage['data']['usage']['requests'] ) ? $usage['data']['usage']['requests'] : '';
+		$plan_requests_quota = ! empty( $usage['data']['usage']['requests_quota'] ) ? $usage['data']['usage']['requests_quota'] : '';
+
+		ob_start();
+		?>
+
+        <div>
+            <span><b><?php _e( 'Plan:', 'currency-exchange-rates' ); ?></b></span> <span><?php echo $plan_name; ?></span>
+        </div>
+        <div>
+            <span><b><?php _e( 'Usage:', 'currency-exchange-rates' ); ?></b></span> <span><?php echo $plan_requests; ?>/<?php echo $plan_requests_quota; ?></span>
+        </div>
+
+		<?php
+		return ob_get_clean();
 	}
 
 }
