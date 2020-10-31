@@ -9,21 +9,17 @@ class Currency_Exchange_Rates {
 	private static $instance = null;
 
 	private function __construct() {
-		$this->settings = Currency_Exchange_Rates_Settings::getInstance();
+		$this->settings = Currency_Exchange_Rates_Settings::instance();
+
+		add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );
 	}
 
-	public static function getInstance() {
+	public static function instance() {
 		if ( self::$instance == null ) {
 			self::$instance = new self();
 		}
 
 		return self::$instance;
-	}
-
-	public function init() {
-		add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );
-
-		$this->settings->init();
 	}
 
 	public function on_plugins_loaded() {
