@@ -3,7 +3,7 @@
 defined( 'ABSPATH' ) or die();
 
 function currency_exchange_rate_get_latest( $base = 'USD' ) {
-	return Currency_Exchange_Rates::getInstance()->get_latest( $base );
+	return Currency_Exchange_Rates::instance()->get_latest( $base );
 }
 
 function currency_exchange_rate_get_plan() {
@@ -14,7 +14,7 @@ function currency_exchange_rate_get_plan() {
 	$usage = get_transient( $transient_name );
 
 	if ( empty( $usage ) ) {
-		$usage = Currency_Exchange_Rates::getInstance()->get_usage();
+		$usage = Currency_Exchange_Rates::instance()->get_usage();
 		set_transient( $transient_name, $usage, DAY_IN_SECONDS );
 	}
 
@@ -39,7 +39,7 @@ function currency_exchange_rates_convert( $value, $to, $from = 'USD' ) {
 	$currencies = get_transient( $transient_name );
 
 	if ( empty( $currencies ) ) {
-		$currencies = Currency_Exchange_Rates::getInstance()->get_latest( $currency );
+		$currencies = Currency_Exchange_Rates::instance()->get_latest( $currency );
 		set_transient( $transient_name, $currencies, DAY_IN_SECONDS );
 	}
 
